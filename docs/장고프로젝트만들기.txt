@@ -1,0 +1,89 @@
+﻿----01. Django Project 생성----
+
+0. MySQL(5.1)에 root로 접근,                             -> mysql -u root -p
+   djdb 데이터베이스 생성,                                -> create database djdb;
+   djdb 계정 생성 & 권한 설정                             -> grant all privileges on djdb.* to 'djdb'@'localhost' identified by 'djdb'
+
+1. Pycharm에서 Project 생성 				                -> webapps 생성
+
+2. venv에 Django 라이브러리(2.0.6) 설치                   -> (venv) pip install django==2.0.6
+
+3. mysqlclient(1.3.13) 드라이버 설치			            -> D:\Programming\04IoT2018\mysqlclient-1.3.13-cp36-cp36m-win_amd64.whl
+
+4. Django Project 생성 				                    -> (venv) 터미널에서 Django-admin startproject webapps
+
+5. Pycharm Project를 Django Project로 변경하기		    -> 디렉토리 이동/삭제
+
+6. settings.py에서 DATABASES default 설정
+                                                            'default': {
+                                                            'ENGINE': 'django.db.backends.mysql',
+                                                            'NAME': 'djdb',
+                                                            'USER': 'djdb',
+                                                            'PASSWORD': 'djdb',
+                                                            'HOST': '127.0.0.1',
+                                                            'PORT': '3306'
+                                                        }
+
+                   타임존(TIME_ZONE) 설정                TIME_ZONE = 'Asia/Seoul'
+
+7. 기본적으로 장고 프로젝트가 관리하는 테이블 생성
+(venv) 터미널에서                                        (venv) python manager.py migrate
+
+8. 장고 프로젝트(webapps) 관리자 계정 생성				    (venv) python manage.py createsuperuser
+
+9. 지금까지 작업 확인하기
+    1) 서버 시작 : (venv) 터미널 - python manage.py runserver 0.0.0.0:8888
+    2) 브라우저로 접근 : http://localhost:8888
+    3) 브라우저로 관리자 페이지 접근 : http://localhost:8888/admin 관리자 로그인
+
+10. template 디렉토리 설정
+    1) settings.py 설정                 TEMPLATES = [
+                                                        {
+                                                            ...
+                                                            'DIRS': [os.path.join(BASE_DIR, 'templates')],
+                                                            ...
+
+
+                                                        },
+                                                    ]
+
+    2) 프로젝트에 templates 디렉토리 생성
+
+11. static 자원(html, css, js, images etc)에 대한 설정
+    settings.py에
+                                                        STATICFILES_DIRS = (os.path.join(BASE_DIR, 'statics'))
+                                                        STATIC_URL = '/assets/'
+
+12. application 생성/구현 작업 반복
+
+===================================================================================
+
+---02. Django 프로젝트에 Application 추가하기----
+
+1. application 생성하기 				                    (venv) python manage.py startapp helloweb
+
+2. 설정에 애플리케이션 추가하기
+                                                        INSTALLED_APPS = [
+                                                            ...
+                                                            'helloweb'
+                                                        ]
+
+3. application의 views에 핸들러 함수 추가하기              helloweb/views.py
+
+4. url 맵핑                                              webapps/urls.py -> urlpatterns = [
+                                                                                            path('admin/', admin.site.urls),
+                                                                                            path('hello/', helloweb.views.hello),   # 실행이 아니기 때문에 hello() 안씀
+                                                                                        ]
+
+5. 핸들러 함수에 처리 작업 코드 작성
+    model을 통한 DB CRUD 작업
+    메일 보내기
+    파일 저장 등...
+
+6. 핸들러 함수에 응답 코드 작성
+    Template을 통한 HTML 응답
+    리다이렉션 응답
+    각종 에러에 대한 응답
+    JSON 응답
+
+

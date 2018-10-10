@@ -17,9 +17,15 @@ from django.contrib import admin
 from django.urls import path
 
 import helloweb.views as helloweb_views
+import emaillist.views as emaillist_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('helloweb/hello', helloweb_views.hello),   # 실행이 아니기 때문에 hello() 안씀
     path('helloweb/tags', helloweb_views.tags),
+    path('helloweb/join', helloweb_views.join),
+
+
+    path('emaillist/', emaillist_views.index),
+
 ]

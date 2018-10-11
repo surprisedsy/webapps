@@ -17,6 +17,30 @@ def connect():
         return None
 
 
+def insert(emaillist):
+    try:
+
+        conn = connect()
+        cursor = conn.cursor()
+
+        sql = """ insert
+                    into emaillist
+                values (null, '%s', '%s', '%s')
+            """ % emaillist
+
+        count = cursor.execute(sql)
+
+        cursor.close()
+        conn.commit()
+        conn.close()
+
+        return count == 1
+
+    except MySQLdb.Error as e:
+        print("Error {0}: {1}".format(e.args[0], e.args[1]))
+        return None
+
+
 def fetchall():
     try:
         conn = connect()
@@ -40,3 +64,4 @@ def fetchall():
     except MySQLdb.Error as e:
         print("Error {0}: {1}".format(e.args[0], e.args[1]))
         return None
+

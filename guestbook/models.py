@@ -1,6 +1,5 @@
 import MySQLdb
 from webapps.settings import DATABASES
-from django.db import models
 
 # Create your models here.
 def connect():
